@@ -1,0 +1,175 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Enrollment Form</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <!-- End Bootsrap CSS -->
+
+    <!-- custom CSS-->
+    <link rel="stylesheet" href="{% static 'custom_css/style.css' %}">
+    <!-- End Custom Css -->
+
+    <!-- Custom Javascript -->
+    <script src="{% static 'custom_js/index.js' %}"></script>
+    <!-- End Javascript -->
+
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 p-0">
+                <h5 id="responsive3">Create a student enrollment form</h5>
+            </div>
+        </div>
+    </div>
+    <div class="container border-rgt border-lft" style="height: 550px;" id="responsive">
+        <div class="row">
+            <div class="col-md-12">
+                <h6 class="heading">Student Enrollment Form</h6>
+            </div>
+            <div class="col-md-5 mx-auto p-4 border-center">
+
+                <!-- create form -->
+
+                <form action="" method="POST" id="reset">
+                    {% csrf_token %}
+                    <div class="form-group responsive2">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label for="">Name</label>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="name" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group responsive2">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label for="">Email</label>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="email" class="form-control" name="email" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group responsive2">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label for="">Website</label>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="website" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group responsive2">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label for="">Image link</label>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="url" class="form-control" name="image_link" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label for="">Gender</label>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="radio" name="gender" value="Male" checked> Male<br>
+                                <input type="radio" name="gender" value="Female"> Female
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label for="">Skills</label>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="checkbox" value="java" id="check1" onclick="myfun()"> <label
+                                    style="margin-right: 3px;">Java</label>
+                                <input type="checkbox" value="HTML" id="check2" onclick="myfun()"> <label
+                                    style="margin-right: 3px;">HTML</label>
+                                <input type="checkbox" value="CSS" id="check3" onclick="myfun()"> <label>CSS</label>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="text" id="check_value" name="check" hidden>
+                    <button type="submit" class="btn btn-primary mr-3 btn-sm mb-3">Enroll Student</button>
+                    <button type="button" class="btn btn-danger btn-sm mb-3" onclick="reset()">Clear</button>
+                </form>
+                <!-- end form -->
+
+            </div>
+            <div class="col-md-6 mx-auto p-4">
+                <h6 class="text-center mb-4"><b>Enrolled Students</b></h6>
+                <div class="row" style="background-color: greenyellow; border: 1px solid yellowgreen;">
+                    <div class="col-md-9">
+                        <h5 class="text-white">Description</h5>
+                    </div>
+                    <div class="col-md-3">
+                        <h5 class="text-white">Image</h5>
+                    </div>
+                </div>
+
+                <!-- Student Data fetch from database -->
+                {% for i in all_data %}
+                <div class="row fade-in" style="border:1px solid yellowgreen">
+                    <div class="col-md-9 p-1" style="border-right:1px solid yellowgreen ;">
+                        <div class="table-responsive">
+                            <table>
+                                <tr>
+                                    <td>{{i.name}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{i.gender}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{i.email}}</td>
+                                </tr>
+                                <tr>
+                                    <td><a href="https://{{i.website}}" target="_blank">{{i.website}}</a></td>
+                                </tr>
+                                <tr>
+                                    <td>{{i.skills}}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-3 p-2">
+                        <div class="table-responsive">
+                            <table>
+                                <tr>
+                                    <td><img src="{{i.image_link}}" alt="" width="100%" height="125px"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                <!-- End student fetching data -->
+
+            </div>
+        </div>
+    </div>
+
+   <!-- Message show if enrollment success -->
+    {% if status %}
+    <script>
+        alert("{{status}}")
+    </script>
+    {% endif %}
+    <!-- end message -->
+    
+</body>
+</html>
